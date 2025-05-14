@@ -2,7 +2,6 @@ package com.techlab.repository;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.techlab.model.Cliente;
 import com.techlab.model.Pedido;
 import com.techlab.model.Producto;
 

@@ -1,15 +1,7 @@
 package com.techlab;
 
-import com.techlab.model.Cliente;
 import com.techlab.model.Producto;
-import com.techlab.repository.ClienteRepository;
-import com.techlab.repository.DetallePedidoRepository;
-import com.techlab.repository.PedidoRepository;
-import com.techlab.repository.ProductoRepository;
 import com.techlab.service.ProductoService;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
