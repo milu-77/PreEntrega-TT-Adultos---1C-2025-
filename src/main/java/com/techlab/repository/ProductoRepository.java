@@ -2,10 +2,15 @@ package com.techlab.repository;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.techlab.consoleui.ProductoUI;
+import com.techlab.model.DetallePedido;
 import com.techlab.model.Producto;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class ProductoRepository {
     private static final String JSON_PATH = "src/main/resources/data/productos.json";
@@ -15,7 +20,16 @@ public class ProductoRepository {
 
     public ProductoRepository() {
         this.productos = this.cargarProductos();
+        System.out.println("_____________________");
+
+        System.out.println("CARGANDO PRODUCTOS...");
+        System.out.println("cantidad de productos:"+ this.productos.size());
+        System.out.println("El indice mayor es:"+ getIndice());
+        Producto.setContadorId(getIndice()+1);
+        System.out.println("_____________________");
+
     }
+
     //Cargar Producto desde Json
     private ArrayList<Producto> cargarProductos() {
         try {
@@ -27,7 +41,7 @@ public class ProductoRepository {
             return mapper.readValue(file, new TypeReference<ArrayList<Producto>>() {
             });
         } catch (IOException e) {
-            System.err.println("Error al leer el JSON: " + e.getMessage());
+            System.err.println("Error al leer el JSON DE PRODUCTOS: " + e.getMessage());
             return new ArrayList<>();
         }
     }
@@ -50,21 +64,19 @@ public class ProductoRepository {
 
     //Borrar Producto
     public void borrar(int index) {
-         int indice= this.getIndex(index);
-         if(indice==-1){
-             throw new IllegalArgumentException("producto no existente -1");
-         }
+        int indice = this.getIndex(index);
+        if (indice == -1) throw new IllegalArgumentException("producto no existente -1");
+
         this.productos.remove(indice);
         this.guardarProductos(this.productos);
+
     }
 
     private int getIndex(int index) {
-        for(int indice = 0;indice<this.productos.size();indice++){
-            if(this.productos.get(indice).getId()==index){
-                return indice;
-            }
-        }
-        return -1;
+        return IntStream.range(0, productos.size())
+                .filter(i -> productos.get(i).getId() == index)
+                .findFirst()
+                .orElse(-1);
     }
 
     //Búsqueda por ID
@@ -74,6 +86,14 @@ public class ProductoRepository {
                 .findFirst()
                 .orElse(null);
     }
+    public Producto buscarIndex(int id) {
+        return productos.get(id);
+    }
+    public int indexDB(){
+        return productos.size();
+    }
+
+
     //Búsqueda por NOMBRE
     public Producto buscar(String nombre) {
         return productos.stream()
@@ -81,24 +101,23 @@ public class ProductoRepository {
                 .findFirst()
                 .orElse(null);
     }
-    //Actualizar Producto
-    public void actualizar(Producto producto) {
 
-        this.productos.get(producto.getId()).setNombre(producto.getNombre());
-        this.productos.get(producto.getId()).setPrecio(producto.getPrecio());
-        this.productos.get(producto.getId()).setStock(producto.getStock());
+    //Actualizar Producto ESTO ESTA MAL
+    public void actualizar(Producto producto) {
+        int index = getIndex(producto.getId());
+        System.out.println(index+" : "+ producto.getId());
+         this.productos.get(index).setNombre(producto.getNombre());
+        this.productos.get(index).setPrecio(producto.getPrecio());
+        this.productos.get(index).setStock(producto.getStock());
         this.guardarProductos(this.productos);
     }
 
     //Visualización de Productos BASICA;
     @Override
     public String toString() {
-        StringBuilder retorno = new StringBuilder();
-        for (Producto pro : productos) {
-            retorno.append(pro.toString()).append("\n");
-        }
-
-        return retorno.toString();
+        return productos.stream()
+                .map(Object::toString)
+                .collect(Collectors.joining("\n"));
     }
 
     public void limpiar() {
@@ -107,11 +126,28 @@ public class ProductoRepository {
 
     public boolean existsByNombre(String nombre) {
 
-        return buscar(nombre)!=null;
+        return buscar(nombre) != null;
     }
 
     public boolean existsById(int id) {
 
-        return buscar(id)!=null;
+        return buscar(id) != null;
+    }
+
+    public int getIndice() {
+        return productos.stream()
+                .mapToInt(Producto::getId)
+                .max()
+                .orElse(0);
+
+    }
+
+
+    public void actualizarStock(int idProducto, int canditad) {
+        int index = getIndex(idProducto);
+        System.out.println(index+" : "+ idProducto);
+         this.productos.get(index).setStockResta(canditad);
+        this.guardarProductos(this.productos);
+
     }
 }

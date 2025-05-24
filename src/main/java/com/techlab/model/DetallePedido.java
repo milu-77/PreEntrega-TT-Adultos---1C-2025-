@@ -6,18 +6,26 @@ public class DetallePedido {
     private int idPedido;
     private int idProducto;
     private double precio;
-    private int canditad;
+    private int cantidad;
 
-    public DetallePedido(int idCliente, int idProducto, double precio, int canditad) {
-        this.idPedido = idCliente;
+    public DetallePedido(int idPedido, int idProducto, double precio, int cantidad) {
+        this.idPedido = idPedido;
         this.idProducto = idProducto;
         this.precio = precio;
-        this.canditad = canditad;
+        this.cantidad = cantidad;
         this.id=contadorId++;
     }
 
 
     public DetallePedido() {
+    }
+
+    public int getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(int cantidad) {
+        this.cantidad = cantidad;
     }
 
     public int getId() {
@@ -52,21 +60,19 @@ public class DetallePedido {
         this.precio = precio;
     }
 
-    public int getCanditad() {
-        return canditad;
-    }
 
-    public void setCanditad(int canditad) {
-        this.canditad = canditad;
-    }
 
     @Override
     public String toString() {
         return "DetallePedido{" +
-                "idCliente=" + idPedido +
+                "idPedido=" + idPedido +
                 ", idProducto=" + idProducto +
                 ", precio=" + precio +
-                ", canditad=" + canditad +
+                ", canditad=" + cantidad +
                 '}';
+    }
+
+    public static void setContadorId(int contadorId) {
+        DetallePedido.contadorId = contadorId;
     }
 }

@@ -1,5 +1,7 @@
 package com.techlab.model;
 
+import java.util.Locale;
+
 public class Producto {
     private static int contadorId = 0; ;
     private   int id ;
@@ -9,17 +11,19 @@ public class Producto {
     private int stock;
 
 
-    public Producto(String nombre, double precio, int stock) {
-        this.nombre = nombre;
+    public Producto(String nombre, int stock, double precio) {
+        this.nombre =  nombre.toLowerCase(Locale.ROOT);
         this.precio = precio;
         this.stock = stock;
         this.id=contadorId++;
+        System.out.println(this.id);
     }
     public Producto(int id,String nombre, double precio, int stock) {
-        this.nombre = nombre;
+        this.nombre = nombre.toLowerCase(Locale.ROOT);
         this.precio = precio;
         this.stock = stock;
         this.id=id;
+
     }
 
     public Producto() {
@@ -45,6 +49,10 @@ public class Producto {
         return stock;
     }
 
+    public void setStockResta(int stock) {
+        this.stock-= stock;
+    }
+
     public void setStock(int stock) {
         this.stock = stock;
     }
@@ -59,11 +67,21 @@ public class Producto {
 
     @Override
     public String toString() {
-        return "Producto{" +
-                "id='" + id + '\'' +
-                "nombre='" + nombre + '\'' +
-                ", precio=" + precio +
-                ", stock=" + stock +
-                '}';
+        StringBuilder retorno = new StringBuilder();
+        retorno.append("▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓\n")
+                .append("ID : "+id+"\n")
+                .append("NOMBRE: "+nombre+"\n")
+                .append("STOCK: "+stock+"\n")
+                .append("PRECIO: "+precio+"$\n")
+                .append("▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓");
+        return retorno.toString();
+    }
+
+    public static void setContadorId(int contadorId) {
+        Producto.contadorId = contadorId;
+    }
+
+    public static int getContadorId() {
+        return contadorId;
     }
 }

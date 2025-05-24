@@ -1,41 +1,16 @@
 package com.techlab;
 
-import com.techlab.model.Producto;
-import com.techlab.service.ProductoService;
+import com.techlab.config.DependencyConfig;
+import com.techlab.consoleui.MenuMain;
+import com.techlab.consoleui.PedidoUI;
+import com.techlab.consoleui.ProductoUI;
 
 public class Main {
     public static void main(String[] args) {
-        ProductoService productos = new ProductoService();
-        System.out.println(productos.listarProductos() );
-//          System.out.println(productos.buscarProducto(0) );
-//         System.out.println(productos.buscarProducto("Balón de Fútbol Adidas") );
-//         productos.actualizarProducto(new Producto(0,"Cafetera normal",200,150));
-//         System.out.println(productos.buscarProducto(0) );
-         productos.borrarProducto(new Producto(0,"Cafetera normal",200,150));
-        System.out.println(productos.listarProductos() );
-
-
- 
-// Agregar nuevo producto
-//         productos.agregarProducto(new Producto("Laptop HP Pavilion", 899.99, 15));
-//        productos.agregarProducto(new Producto("Mouse Inalámbrico Logitech", 25.50, 50));
-//        productos.agregarProducto(new Producto("Cafetera Nespresso", 129.99, 10));
-//        productos.agregarProducto(new Producto("Paquete 500 Hojas Papel A4", 12.75, 30));
-//        productos.agregarProducto(new Producto("Balón de Fútbol Adidas", 34.90, 20));
-//        productos.agregarProducto(new Producto("Camiseta de Algodón Unisex", 19.99, 100));
-//        productos.agregarProducto(new Producto("Aceite de Oliva Extra Virgen 1L", 8.45, 40));
-//        productos.agregarProducto(new Producto("Lego Star Wars Millennium Falcon", 149.99, 5));
-//        productos.agregarProducto(new Producto("Crema Hidratante Nivea", 7.30, 60));
-//        productos.agregarProducto(new Producto("Comida para Perros Royal Canin 3kg", 22.40, 25));
-
-//        clientes.guardarCliente(new Cliente("Luis González"));
-//        clientes.guardarCliente(new Cliente("Ana Martínez"));
-
-
-//        pedidos.crearPedido(clientes.getIdCliente(0));
-//
-//        pedidos.agregarProducto(productos.getIdProducto(0);10);
-
-
+        DependencyConfig dependencyConfig = new DependencyConfig();
+        PedidoUI pedidoUI=new PedidoUI(dependencyConfig.getPedidoService(),dependencyConfig.getProductoService());
+        ProductoUI productoUI= new ProductoUI(dependencyConfig.getProductoService());
+        MenuMain menu = new MenuMain(productoUI, pedidoUI);
+        menu.mostrarMenu();
     }
 }
