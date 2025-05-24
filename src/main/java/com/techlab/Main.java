@@ -7,10 +7,6 @@ import com.techlab.consoleui.ProductoUI;
 
 public class Main {
     public static void main(String[] args) {
-        DependencyConfig dependencyConfig = new DependencyConfig();
-        PedidoUI pedidoUI=new PedidoUI(dependencyConfig.getPedidoService(),dependencyConfig.getProductoService());
-        ProductoUI productoUI= new ProductoUI(dependencyConfig.getProductoService());
-        MenuMain menu = new MenuMain(productoUI, pedidoUI);
-        menu.mostrarMenu();
+        View.start();
     }
 }
