@@ -45,9 +45,9 @@ public class PedidoService {
             throw new ProductoCrashException("PEDIDOS VACIO");
         }
         retorno.append("\n▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓\n");
-         for(int a =1;a<pedidoRepo.getSize()+1;a++){
+         for(int a =0;a<pedidoRepo.getSize();a++){
                 retorno.append("Pedido N°"+a+"\n")
-                        .append("Cantidad de productos: "+this.getPedidoById(a).CantidadProductos()+"\n")
+                        .append("Cantidad de productos: "+this.getPedidoByIndex(a).CantidadProductos()+"\n")
                         .append("                 _DETALLES_\n")
                         .append("|      PRODUCTO      | CANTIDAD |  P. Unit |\n");
                 for (DetallePedido dp : this.detalleService.listadoPorPedido(a) ){
@@ -70,7 +70,7 @@ public class PedidoService {
                 }
              retorno.append("__________________________________________________\n")
                      .append("PRECIO TOTAL:  ")
-                     .append(String.format("%20s",  +this.getPedidoById(a).getTotal() ))
+                     .append(String.format("%20s",  +this.getPedidoByIndex(a).getTotal() ))
                        .append("$\n__________________________________________________ \n\n")
                     .append("\n▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓\n");
 
@@ -86,6 +86,9 @@ public class PedidoService {
 
     private Pedido getPedidoById(int a) {
         return this.pedidoRepo.buscar(a);
+    }
+    private Pedido getPedidoByIndex(int a) {
+        return this.pedidoRepo.buscarIndex(a);
     }
 
     public void actualizarPedido(DetallePedido detallePedido) {

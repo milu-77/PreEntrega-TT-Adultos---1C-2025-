@@ -89,6 +89,9 @@ public class PedidoRepository {
                 .findFirst()
                 .orElse(null);
     }
+    public Pedido buscarIndex(int id) {
+        return pedidos.get(id);
+    }
   //Actualizar Producto
     public void actualizar(Pedido pedido) {
     }
